@@ -1,0 +1,10 @@
+# downloaded data
+*.txt
+
+# blend-backups
+*.blend?
+*.blend??
+
+# compiled python
+__pycache__/
+*.pyc

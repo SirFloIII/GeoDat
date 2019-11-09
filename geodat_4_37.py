@@ -47,13 +47,7 @@ m = -1/2A * (B,C), r² = (B²+C² - 4AD) / 4A²
 
 P = np.stack((np.sum(p**2, axis = 1), *p.T, np.ones(num))).T
 
-K = P.T @ P
-
-ew, ev = np.linalg.eig(np.linalg.inv(L) @ K)
-
-A, B, C, D = geodat.smallestNonNegativeEV(ew, ev)
-
-#A, B, C, D = x/((x[1]**2 + x[2]**2 - 4*x[0]*x[3]))
+A, B, C, D = geodat.constrainedWeightedRegression(P, L)
 
 m = -1/(2*A) * np.array((B, C)).reshape((2,1))
 

@@ -51,7 +51,7 @@ minimum x* ist normierter EV zum kleinsten EW λ
 
 eigenwerte, eigenvektoren = np.linalg.eig(np.linalg.inv(G1).dot(A))
 
-x = min(zip(eigenwerte, eigenvektoren), key = lambda x:x[0])[1]
+x = min(zip(eigenwerte, eigenvektoren.T), key = lambda x:x[0])[1]
 
 x = x/np.sqrt((x.dot(G1).dot(x)))
 

@@ -20,3 +20,8 @@ def getPoints(url,back="src"):
     points = np.loadtxt(filename)
     return points
 
+def smallestNonNegativeEV(ew, ev):
+    return min(zip(ev.T, ew), key = lambda x: np.float("inf") if x[1] < 0 else x[1])[0]
+
+def smallestEV(ew, ev):
+    return min(zip(ev.T, ew), key = lambda x: x[1])[0]

@@ -16,18 +16,10 @@ Created on Thu Oct 31 15:06:20 2019
 import numpy as np
 from matplotlib import pyplot as plt
 
-url = "https://www.geometrie.tuwien.ac.at/mueller/files/daten/quadr-rot.txt"
-filename = url.split("/")[-1]
+import geodat
 
-try:
-    x = np.loadtxt(filename)
-except:
-    import urllib.request
-    
-    urllib.request.urlretrieve(url, filename)
-    x = np.loadtxt(filename)
-    
-n = len(x)
+x = geodat.getPoints("quadr-rot.txt")
+m = len(x)
 
 #Theorie: siehe 30)
 
@@ -56,17 +48,45 @@ A = np.array(([n[1] , -n[0]],
 z = (A@y.T).T
 
 #from past import letze übung
+#copypaste ist sicher kein antipattern
+
+A = np.stack((np.ones(m), z[:, 0], z[:, 0]**2)).T
+
+b = z[:, 1]
+
+At = np.linalg.pinv(A)
+
+a0, a1, a2 = At.dot(b)
 
 
-#Plotting
+#####################################
+#         __     __  __  _          #
+#   ___  / /__  / /_/ /_(_)__  ___ _#
+#  / _ \/ / _ \/ __/ __/ / _ \/ _ `/#
+# / .__/_/\___/\__/\__/_/_//_/\_, / #
+#/_/                         /___/  #
+#####################################
 
 #richtungsvektor der Ausgleichsgerade
 r = (n[::-1]*(1,-1)).reshape((2,1))
-t = np.linspace(-5,10).reshape((1,-1))
+t = np.linspace(-4,10).reshape((1,-1))
 #punkte auf der gerade
 g = (d*n).reshape((2,1))+t*r
 
 plt.axis("equal")
-plt.scatter(x[:,0], x[:,1])
+
+
+
+plt.scatter(*x.T, marker = ".")
+
 plt.plot(g[0], g[1])
-plt.scatter(*z.T)
+
+plt.scatter(*z.T, marker = ".")
+
+
+xp = np.linspace(min(z[:, 0]), max(z[:, 0]))
+
+yp = a0 + a1*xp + a2*xp**2
+
+plt.plot(xp, yp, color = "tab:red")
+

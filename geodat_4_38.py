@@ -22,12 +22,13 @@ P = np.stack((np.sum(p**2, axis = 1), *p.T, np.ones(num))).T
 
 w = np.ones(num)
 
-stepcount = 10
+stepcount = 20
 
-c1 = [255, 255, 255]
-c2 = [ 34,  76, 143]
-
-colors = np.linspace(c1, c2, stepcount+1)[1:]/255
+c1 = "FBB03B"
+c2 = "D4145A"
+colors = np.sqrt(np.linspace([int(c1[i:i+2], 16)**2 for i in (0, 2, 4)],
+                             [int(c2[i:i+2], 16)**2 for i in (0, 2, 4)],
+                             stepcount))/255
 
 for i in range(stepcount):
     
@@ -35,22 +36,21 @@ for i in range(stepcount):
     
     d = (P @ x)**2
     
-    w = 1 / d + 0.1
+    w = 1 / (d + 1)
     
     A, B, C, D = x
     
     m = -1/(2*A) * np.array((B, C)).reshape((2,1))
-    
     r = np.sqrt(abs(B**2 + C**2 - 4*A*D)/(4*A**2))
     
-    t = np.linspace(0, 2*np.pi, 2000)
-    x = m + r * np.stack((np.cos(t), np.sin(t)))
+    t = np.linspace(0, 2*np.pi, 100)
+    c = m + r * np.stack((np.cos(t), np.sin(t)))
     
-    plt.plot(*x, c = colors[i])
+    plt.plot(*c, c = colors[i])
 
 #Plotting
 
 plt.axis("equal")
 
-plt.scatter(*p.T, s = 1)
+plt.plot(*p.T, ".")
 

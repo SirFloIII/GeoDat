@@ -38,8 +38,8 @@ def constrainedWeightedRegression(P, L, w = None):
     L ... quadradic Form aka. Constraint
     """
     
-    if w:
-        Q = w*P
+    if np.all(w != None):
+        Q = (P.T*w).T
         A = Q.T @ Q
     else:
         A = P.T @ P

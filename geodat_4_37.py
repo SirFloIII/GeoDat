@@ -13,10 +13,6 @@ import matplotlib.pyplot as plt
 p = geodat.getPoints("kreis.txt")
 num = len(p)
 
-
-plt.scatter(*p.T, s = 1)
-plt.axis("equal")
-
 """
 [Pottmann: Industrial Geometry, S.48ff]
 
@@ -55,10 +51,12 @@ r = np.sqrt(abs(B**2 + C**2 - 4*A*D)/(4*A**2))
 
 #Plotting
 
+plt.axis("equal")
+
+plt.scatter(*p.T, s = 1)
+
 t = np.linspace(0, 2*np.pi)
-
 x = m + r * np.stack((np.cos(t), np.sin(t)))
-
 
 plt.plot(*x)
 

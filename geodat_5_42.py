@@ -15,6 +15,30 @@ p = geodat.getPoints("points.txt")
 n = geodat.getPoints("normals.txt")
 num = len(p)
 
+n_bar = np.cross(p,n)
+n_combined = [ [*n[i],*n_bar[i]] for i in range(len(n))]
+print(n_combined[0])
+
+def minSquare(x):
+    d = np.mean(x, axis = 0)
+    y = x - d
+    C = y.T @ y
+    ew, ev = np.linalg.eig(C)
+    n = min(zip(ew, ev), key = lambda x:x[0])[1]
+    return n/np.linalg.norm(n)
+
+c = [0,0,0]
+c_bar = [0,0,0]
+
+c[0],c[1],c[2],c_bar[0],c_bar[1],c_bar[2] = minSquare(n_combined)
+
+print(c)
+print(c_bar)
+
+# (c cbar)^t Q (= sum (n nbar)^t (n nbar)) (c cbar)
+# <c,c_bar>/<c,c> = p
+# (g, gbar) = (c, cbar - p c), dh richtungsvektor = g = c
+
 #plot in 3d
 fig = plt.figure()
 ax = fig.add_subplot(221, projection='3d')

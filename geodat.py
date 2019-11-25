@@ -10,8 +10,8 @@ def getPoints(url,back="src"):
     
     filename = os.path.join(back, os.path.basename(url))
     if os.path.isfile(filename):
-        points = np.loadtxt(filename)
-        return points
+      points = np.loadtxt(filename)
+      return points
     
     if not os.path.exists(back):
         os.makedirs(back)
@@ -34,7 +34,7 @@ def constrainedWeightedRegression(P, L, w = None):
     and return smallest nonnegative Eigenvector
     
     ie. solve the constrained weighted Regression
-    P ... generalised Vandermond-Matrix
+    P ... generalised Vandermonde-Matrix
     L ... quadradic Form aka. Constraint
     """
     
@@ -44,7 +44,12 @@ def constrainedWeightedRegression(P, L, w = None):
     else:
         A = P.T @ P
     
-    ew, ev = np.linalg.eig(np.linalg.inv(L) @ A)
+    if np.linalg.det(L) == 0 :
+      #generalised
+      import scipy.linalg as spla
+      ew, ev = spla.eig(A,L)
+    else:
+      ew, ev = np.linalg.eig(np.linalg.inv(L) @ A)
 
     x = smallestNonNegativeEV(ew, ev)
     

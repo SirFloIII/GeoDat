@@ -55,6 +55,36 @@ def constrainedWeightedRegression(P, L, w = None):
     
     return x/(x.T @ L @ x)
     
-#def WeightedRegression(A, b, w):
-    #maybe later   
+def WeightedRegression(A, b, w):
+    raise NotImplementedError   
     
+def registration(p, q):
+    """
+    does (unweighted) affine registration
+    finds f so that sum||f(p_i) - q_i||² is minimal
+    with f(x) = A*x + a
+    returns A, a
+    """
+    
+    M = np.concatenate((np.ones((len(p),1)), p), axis = 1)
+    b = q
+    
+    x = np.linalg.pinv(M) @ b
+    
+    A = x[1:]
+    a = x[0]
+    
+    return A, a
+
+
+
+
+
+
+
+
+
+
+
+
+

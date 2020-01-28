@@ -2,7 +2,7 @@
 """
 Created on Thu Jan  9 17:04:08 2020
 
-@author: Flo
+@author: Flo & Fabian
 """
 
 import numpy as np
@@ -86,7 +86,7 @@ class Dreiecksnetz:
     
 if __name__ == "__main__":
     
-    case = 3
+    case = 1
     
     if case == 1:
         
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     p = []
     k = []
     for v in netz.vertices:
-        if v[0] != 1 and v[1] != 1 and v[0] != m and v[1] != n: #if inner pointß
+        if v[0] != 1 and v[1] != 1 and v[0] != m and v[1] != n: #if inner point
             p.append(netz.positions[v])
             k.append(netz.H(v))
     
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     
-    ax.scatter(*p, s = 2)
+    ax.scatter(*p, s = 4, c = "r")
     ax.quiver(*p, *k, length = 5)
     
     
